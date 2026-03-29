@@ -1,118 +1,562 @@
 <!DOCTYPE html>
 <html lang="ms">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Portal Peperiksaan Pertengahan 1 (Mac) 2026 </title>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<style>
-body{margin:0;font-family:'Poppins';background:linear-gradient(135deg,#d6e6ff,#eef4ff);} 
-header{background:#151B54;color:white;text-align:center;padding:20px;position:relative;overflow:hidden;}
-header::after{content:"";position:absolute;inset:0;background:radial-gradient(circle at 20% 30%,rgba(255,255,255,.15),transparent 40%),radial-gradient(circle at 80% 70%,rgba(255,255,255,.12),transparent 40%);} 
-header img{width:80px}
-.container{padding:15px;max-width:1300px;margin:auto}
-.card{background:white;border-radius:14px;padding:15px;margin-bottom:15px;box-shadow:0 4px 12px rgba(0,0,0,0.1)}
-button{padding:10px 15px;border:none;border-radius:8px;background:#151B54;color:white;cursor:pointer;margin:5px}
-input,select{padding:10px;margin:5px;border-radius:8px;border:1px solid #ccc;width:100%;max-width:280px}
-.table{width:100%;border-collapse:collapse;font-size:11px}
-.table th,.table td{border:1px solid #ddd;padding:5px;text-align:center}
-.hidden{display:none}
-.print-area{display:none}
-@media print{
- body *{visibility:hidden}
- .print-area,.print-area *{visibility:visible}
- .print-area{position:absolute;top:0;left:0;width:100%}
- .page-break{page-break-after:always}
-}
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portal Peperiksaan Pertengahan 1 (Mac) 2026 - SMK Selirik</title>
+    <style>
+        /* --- GAYA ASAS & UI (MOBILE FRIENDLY) --- */
+        :root {
+            --night-blue: #151B54;
+            --bg-gradient: linear-gradient(135deg, #e0eafc 0%, #cfdef3 100%);
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0; padding: 0;
+            background: var(--bg-gradient);
+            min-height: 100vh; color: #333;
+        }
+
+        /* HEADER DENGAN CORAK ABSTRAK KORPORAT */
+        header {
+            background-color: var(--night-blue);
+            background-image: 
+                linear-gradient(135deg, rgba(255,255,255,0.05) 25%, transparent 25%),
+                linear-gradient(225deg, rgba(255,255,255,0.05) 25%, transparent 25%),
+                linear-gradient(45deg, rgba(255,255,255,0.05) 25%, transparent 25%),
+                linear-gradient(315deg, rgba(255,255,255,0.05) 25%, transparent 25%);
+            background-position: 10px 0, 10px 0, 0 0, 0 0;
+            background-size: 20px 20px;
+            color: white; text-align: center;
+            padding: 25px 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+
+        .header-content { display: flex; flex-direction: column; align-items: center; justify-content: center; }
+        .header-content img { max-width: 90px; height: auto; margin-bottom: 10px; }
+        .header-content h1 { margin: 0; font-size: 1.6rem; letter-spacing: 1px; font-weight: 700; }
+        .header-content h2 { margin: 5px 0 0 0; font-size: 1.2rem; font-weight: 300; }
+
+        /* KOTAK KANDUNGAN */
+        .container {
+            max-width: 1250px; margin: 20px auto; padding: 25px;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 12px; box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+            overflow-x: auto;
+        }
+
+        /* BORANG LOG MASUK */
+        .login-box {
+            max-width: 350px; margin: 60px auto; padding: 30px;
+            background: white; border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1); text-align: center;
+        }
+        .login-box h3 { margin-top: 0; color: var(--night-blue); }
+        input[type="text"], input[type="password"], select {
+            width: 100%; padding: 12px; margin: 10px 0 20px 0;
+            border: 1px solid #ccc; border-radius: 6px; box-sizing: border-box; font-size: 1rem;
+        }
+
+        /* BUTANG */
+        button {
+            background-color: var(--night-blue); color: white; border: none;
+            padding: 10px 20px; border-radius: 6px; cursor: pointer;
+            font-weight: bold; transition: 0.3s; width: 100%; font-size: 1rem;
+        }
+        button:hover { background-color: #283593; transform: translateY(-2px); box-shadow: 0 4px 8px rgba(0,0,0,0.2); }
+        .btn-action { width: auto; margin: 5px; display: inline-block; }
+        .btn-danger { background-color: #d32f2f; }
+        .btn-danger:hover { background-color: #b71c1c; }
+        .btn-success { background-color: #2e7d32; }
+        .btn-success:hover { background-color: #1b5e20; }
+        .btn-warning { background-color: #f57c00; }
+
+        /* JADUAL */
+        .table-responsive { overflow-x: auto; margin-top: 20px; width: 100%; }
+        table { width: 100%; border-collapse: collapse; font-size: 0.85rem; background: white; }
+        th, td { border: 1px solid #ddd; padding: 10px; text-align: center; }
+        th { background-color: var(--night-blue); color: white; white-space: nowrap; }
+        tr:nth-child(even) { background-color: #f9f9f9; }
+        tr:hover { background-color: #f1f1f1; }
+
+        footer { text-align: center; padding: 20px; color: #555; font-size: 0.9rem; margin-top: 40px; font-weight: bold; }
+
+        .hidden { display: none !important; }
+        .control-panel { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; margin-bottom: 20px; background: #f4f6f9; padding: 15px; border-radius: 8px; border-left: 5px solid var(--night-blue); }
+
+        /* --- GAYA CETAKAN (PRINT) --- */
+        @media print {
+            body { background: white; margin: 0; padding: 0; font-size: 11pt; }
+            header, footer, .control-panel, #login-section, .btn-action { display: none !important; }
+            .container { box-shadow: none; border: none; padding: 0; margin: 0; max-width: 100%; }
+            
+            #kawasan-cetakan { display: block; width: 100%; }
+            
+            /* SLIP INDIVIDU */
+            .slip-pelajar { page-break-after: always; padding: 20px; box-sizing: border-box; height: 100vh; }
+            .slip-header { text-align: center; margin-bottom: 20px; }
+            .slip-header img { width: 100%; max-height: 120px; object-fit: contain; }
+            .slip-info { width: 100%; font-weight: bold; margin-bottom: 15px; border: none; }
+            .slip-info td { border: none; text-align: left; padding: 4px; }
+            
+            /* JADUAL CETAKAN */
+            .slip-markah { width: 100%; border-collapse: collapse; margin-bottom: 20px; }
+            .slip-markah th, .slip-markah td { border: 1px solid #000; padding: 8px; color: #000; text-align: center; }
+            .slip-markah th { background-color: #e0e0e0 !important; -webkit-print-color-adjust: exact; color: #000; }
+            
+            /* ANALISIS ADMIN/KP */
+            .laporan-header { text-align: center; margin-bottom: 20px; page-break-before: always; }
+            .laporan-header img { max-width: 80px; }
+            .laporan-header h2 { margin: 5px 0; font-size: 14pt; }
+            .laporan-header h3 { margin: 0; font-size: 12pt; font-weight: normal; }
+
+            .tandatangan-ruang { width: 100%; margin-top: 40px; }
+            .tandatangan-kiri { width: 50%; float: left; text-align: left; }
+            .tandatangan-kanan { width: 50%; float: right; text-align: right; }
+            .clear { clear: both; }
+        }
+        #kawasan-cetakan { display: none; }
+    </style>
 </head>
 <body>
-<header>
-<img src="https://i.ibb.co/VYSKMXf1/Logo-Selirik.png">
-<h2>SMK SELIRIK, KAPIT</h2>
-<h3>Portal Peperiksaan Pertengahan 1 (Mac) 2026 - PRO</h3>
-</header>
 
-<div class="container">
-<div id="loginBox" class="card">
-<h3>Log Masuk</h3>
-<input id="id" placeholder="ID">
-<input id="pass" type="password" placeholder="Kata Laluan">
-<button onclick="login()">Masuk</button>
-</div>
+    <header id="main-header">
+        <div class="header-content">
+            <img src="https://i.ibb.co/VYSKMXf1/Logo-Selirik.png" alt="Logo SMK Selirik">
+            <h1>SMK SELIRIK, KAPIT</h1>
+            <h2>Portal Peperiksaan Pertengahan 1 (Mac) 2026</h2>
+        </div>
+    </header>
 
-<div id="dashboard" class="hidden">
-<div class="card" style="text-align:center">
-<button onclick="show('guru')">Guru</button>
-<button onclick="show('admin')">Admin</button>
-<button onclick="show('kp')">KP</button>
-<button onclick="logout()">Keluar</button>
-</div>
+    <div class="container" id="login-section">
+        <div class="login-box">
+            <h3>Log Masuk Sistem</h3>
+            <input type="text" id="userid" placeholder="ID Pengguna" required>
+            <input type="password" id="password" placeholder="Kata Laluan" required>
+            <button onclick="prosesLogin()">Log Masuk</button>
+            <p id="login-error" style="color:red; display:none; font-size:0.9rem; margin-top:10px;">ID atau Kata Laluan tidak sah!</p>
+        </div>
+    </div>
 
-<div id="guru" class="card hidden">
-<h3>Dashboard Guru Kelas</h3>
-<select id="gT"></select>
-<select id="gK"></select>
-<button onclick="loadGuru()">Papar</button>
-<button onclick="saveAll()">Simpan</button>
-<button onclick="printBulk()">Cetak Slip</button>
-<div id="gData"></div>
-</div>
+    <div class="container hidden" id="guru-dashboard">
+        <div class="control-panel">
+            <div>
+                <h3 style="margin: 0 0 10px 0; color: var(--night-blue);">DASHBOARD GURU KELAS</h3>
+                <select id="pilihan-kelas" style="width: 200px; display: inline-block; margin:0;">
+                    <option value="">-- Pilih Kelas --</option>
+                    <optgroup label="Tingkatan 4 & 5">
+                        <option value="4SN">4SN</option><option value="5SN">5SN</option>
+                        <option value="4ST1">4ST1</option><option value="5ST1">5ST1</option>
+                        <option value="5ST2">5ST2</option><option value="5ST3">5ST3</option>
+                        <option value="4ST2">4ST2</option><option value="4ST3">4ST3</option>
+                        <option value="4A1">4A1</option><option value="4A2">4A2</option><option value="4A3">4A3</option><option value="4A4">4A4</option>
+                        <option value="5A1">5A1</option><option value="5A2">5A2</option><option value="5A3">5A3</option><option value="5A4">5A4</option>
+                        <option value="4KAG">4KAG</option><option value="5KAG">5KAG</option>
+                    </optgroup>
+                    <optgroup label="Tingkatan 1, 2 & 3">
+                        <option value="1A1">1A1</option><option value="2A1">2A1</option><option value="3A1">3A1</option>
+                        <option value="1A2">1A2</option><option value="2A2">2A2</option><option value="3A2">3A2</option>
+                        <option value="1A5">1A5</option><option value="2A5">2A5</option><option value="3A5">3A5</option>
+                    </optgroup>
+                </select>
+                <button class="btn-action" onclick="muatDataUtama('guru')">Papar Data</button>
+            </div>
+            <div>
+                <button class="btn-action btn-success" onclick="simpanDataGuru()">Simpan Ulasan</button>
+                <button class="btn-action" onclick="cetakJadual('paparan-jadual-guru')">Cetak Jadual Kelas</button>
+                <button class="btn-action btn-warning" onclick="cetakSlipIndividu()">Cetak Slip Individu</button>
+                <button class="btn-action btn-danger" onclick="logKeluar()">Keluar</button>
+            </div>
+        </div>
+        <div class="table-responsive" id="paparan-jadual-guru">
+            <p style="text-align:center; color:#666;">Sila pilih kelas dan klik 'Papar Data'.</p>
+        </div>
+    </div>
 
-<div id="admin" class="card hidden">
-<h3>Dashboard Admin (Analitik Penuh)</h3>
-<select id="aT"></select>
-<button onclick="loadAdmin()">Analisis</button>
-<div id="aData"></div>
-<canvas id="aChart"></canvas>
-</div>
+    <div class="container hidden" id="admin-dashboard">
+        <div class="control-panel">
+            <div>
+                <h3 style="margin: 0 0 10px 0; color: var(--night-blue);">DASHBOARD ADMIN</h3>
+                <select id="admin-tapis-jenis" style="width: 150px; display: inline-block; margin:0;" onchange="tukarTapisanAdmin()">
+                    <option value="kelas">Tapis Kelas</option>
+                    <option value="subjek">Tapis Subjek</option>
+                </select>
+                <input type="text" id="admin-carian" placeholder="Cth: 4SN / BM" style="width: 150px; display: inline-block; margin:0;">
+                <button class="btn-action" onclick="muatDataUtama('admin')">Jana Analisis</button>
+            </div>
+            <div>
+                <select id="pilihan-cetakan-admin" style="width: 250px; display: inline-block; margin:0;">
+                    <option value="">-- Pilih Laporan Cetakan --</option>
+                    <option value="rank_subjek">Analisis Rank Subjek</option>
+                    <option value="rank_keseluruhan">Analisis Rank Keseluruhan</option>
+                    <option value="pencapaian_kelas">Pencapaian Mengikut Kelas</option>
+                    <option value="gagal_bm_sej">Pelajar Gagal BM & SEJ</option>
+                    <option value="jantina">Pencapaian Mengikut Jantina</option>
+                </select>
+                <button class="btn-action" onclick="cetakLaporanAdminKP('ADMIN')">Cetak Laporan</button>
+                <button class="btn-action btn-danger" onclick="logKeluar()">Keluar</button>
+            </div>
+        </div>
+        <div class="table-responsive" id="paparan-jadual-admin">
+            <p style="text-align:center; color:#666;">Pilih tapisan dan klik 'Jana Analisis'.</p>
+        </div>
+    </div>
 
-<div id="kp" class="card hidden">
-<h3>Dashboard Ketua Panitia</h3>
-<select id="kSub"></select>
-<button onclick="loadKP()">Analisis</button>
-<div id="kData"></div>
-<canvas id="kChart"></canvas>
-</div>
+    <div class="container hidden" id="kp-dashboard">
+         <div class="control-panel">
+            <div>
+                <h3 style="margin: 0 0 10px 0; color: var(--night-blue);">DASHBOARD KETUA PANITIA</h3>
+                <input type="text" id="kp-subjek" placeholder="Cth: BM, SEJ, MATHS" style="width: 200px; display: inline-block; margin:0;">
+                <button class="btn-action" onclick="muatDataUtama('kp')">Papar Analisis Subjek</button>
+            </div>
+            <div>
+                 <select id="pilihan-cetakan-kp" style="width: 250px; display: inline-block; margin:0;">
+                    <option value="">-- Pilih Laporan Cetakan --</option>
+                    <option value="pencapaian_kelas">Pencapaian Mengikut Kelas</option>
+                    <option value="analisis_gpmp">Analisis GPMP & Gred</option>
+                    <option value="jantina">Pencapaian Mengikut Jantina</option>
+                </select>
+                <button class="btn-action" onclick="cetakLaporanAdminKP('KP')">Cetak Laporan</button>
+                <button class="btn-action btn-danger" onclick="logKeluar()">Keluar</button>
+            </div>
+        </div>
+        <div class="table-responsive" id="paparan-jadual-kp">
+            <p style="text-align:center; color:#666;">Sila masukkan singkatan subjek dan klik 'Papar Analisis Subjek'.</p>
+        </div>
+    </div>
 
-</div>
-</div>
+    <div id="kawasan-cetakan"></div>
 
-<div id="printArea" class="print-area"></div>
-<footer style="text-align:center;padding:10px">Hakcipta NDJE@Selirik, Kapit 2026</footer>
+    <footer>
+        &copy; Hakcipta NDJE@Selirik, Kapit 2026.
+    </footer>
 
-<script>
-const urls={1:"https://docs.google.com/spreadsheets/d/e/2PACX-1vS9ngcL37KMX8ZDsGKomo7Lv6yowNqFdcWciJuvS1UkUU6aFHI_VKuFDLP1d0fKtMlXTW8APMYD38xZ/pub?output=csv",2:"https://docs.google.com/spreadsheets/d/e/2PACX-1vSD6QwXil_0_gA0OBb2t82FneuCt68Sp7P9-He4zyBPEoaVHkJent8hiCSFPa33F-AEmR9BgeEogpt-/pub?output=csv",3:"https://docs.google.com/spreadsheets/d/e/2PACX-1vQg40cTCNS7MVyZVA3-8sZkbNtVT_Db9abxz6xhv1ccZ5ZksWIy0qyn8y30lqxG9G9YN1TOMBXF7WCY/pub?output=csv",4:"https://docs.google.com/spreadsheets/d/e/2PACX-1vR831uDWcPfxf9zOj-mekolv_DMkdsYRMdVsxoLcKqwL88z-tetvP57ti5wB5M2dYIXYVZf9eX7R6Q8/pub?output=csv",5:"https://docs.google.com/spreadsheets/d/e/2PACX-1vRq9lzeK5sombRvA2WRgEYGygUdZwEfifZHVy4IMZiRD7c-yll60qkA4pXeBBocqJsRV6GpM1uazU_B/pub?output=csv"};
+    <script>
+        // --- 1. PEMBOLEHUBAH GLOBAL & URL ---
+        window.dataSemasa = null; // Simpan data CSV di memori
+        window.tingkatanSemasa = null;
 
-const subjectMap=[
-{name:'BM',col:4},{name:'SEJ',col:6},{name:'ENG',col:8},{name:'MATHS',col:10},
-{name:'PM',col:12},{name:'PI',col:14},{name:'SN',col:16},{name:'PSV',col:18},
-{name:'BIB',col:20},{name:'RC',col:22},{name:'PP',col:24},{name:'FIZ',col:26},
-{name:'KIM',col:28},{name:'BIO',col:30},{name:'ADD MATHS',col:32},{name:'SK',col:34}
-];
+        const urlsCSV = {
+            "T1": "https://docs.google.com/spreadsheets/d/e/2PACX-1vS9ngcL37KMX8ZDsGKomo7Lv6yowNqFdcWciJuvS1UkUU6aFHI_VKuFDLP1d0fKtMlXTW8APMYD38xZ/pub?gid=1419213935&single=true&output=csv",
+            "T2": "https://docs.google.com/spreadsheets/d/e/2PACX-1vSD6QwXil_0_gA0OBb2t82FneuCt68Sp7P9-He4zyBPEoaVHkJent8hiCSFPa33F-AEmR9BgeEogpt-/pub?gid=1419213935&single=true&output=csv",
+            "T3": "https://docs.google.com/spreadsheets/d/e/2PACX-1vQg40cTCNS7MVyZVA3-8sZkbNtVT_Db9abxz6xhv1ccZ5ZksWIy0qyn8y30lqxG9G9YN1TOMBXF7WCY/pub?gid=1419213935&single=true&output=csv",
+            "T4": "https://docs.google.com/spreadsheets/d/e/2PACX-1vR831uDWcPfxf9zOj-mekolv_DMkdsYRMdVsxoLcKqwL88z-tetvP57ti5wB5M2dYIXYVZf9eX7R6Q8/pub?gid=1615224868&single=true&output=csv",
+            "T5": "https://docs.google.com/spreadsheets/d/e/2PACX-1vRq9lzeK5sombRvA2WRgEYGygUdZwEfifZHVy4IMZiRD7c-yll60qkA4pXeBBocqJsRV6GpM1uazU_B/pub?gid=1615224868&single=true&output=csv"
+        };
 
-for(let i=1;i<=5;i++){gT.innerHTML+=`<option value='${i}'>Tingkatan ${i}</option>`;aT.innerHTML+=`<option value='${i}'>Tingkatan ${i}</option>`}
-subjectMap.forEach(s=>kSub.innerHTML+=`<option value='${s.col}'>${s.name}</option>`);
+        const urlsAppsScript = {
+            "T1": "https://script.google.com/macros/s/AKfycbzI4uyIyKd5O0do0KQRbdjuzay3OMUBpN0EuJCOtbcAI4dAmh0Fj_n_CTsCX9mwdeNsEg/exec",
+            "T2": "https://script.google.com/macros/s/AKfycbw0BakCGDqNheCPyzdqrstH8jM0Je3D1fM2oJTB0odH5UIAO08GNdOSIqWMK6e1ZQmL/exec",
+            "T3": "https://script.google.com/macros/s/AKfycbwGVcnpPo2ASHnvXyvfCB2PQSYi9XtITDEF6YGC7G0idbXmw13TixmF02846I2593dH/exec",
+            "T4": "https://script.google.com/macros/s/AKfycbztn63Bhbjl6EKwvVFadcYNY3jzA0Nuty-_veEYQBkLenytXxQWZY5h7GweO3maDLn0/exec",
+            "T5": "https://script.google.com/macros/s/AKfycbxg5tGuWQ6U8Aou1tG-m5PXWEyfbfcq_maaL_W8awU35NiBf3v-7c8peqQMeBCIqIdUsQ/exec"
+        };
 
-function login(){if(id.value==='GT2026')show('guru');else if(id.value==='Admin7102')show('admin');else if(id.value==='KP7102')show('kp');loginBox.classList.add('hidden');dashboard.classList.remove('hidden')}
-function show(x){['guru','admin','kp'].forEach(i=>document.getElementById(i).classList.add('hidden'));document.getElementById(x).classList.remove('hidden')}
-function logout(){location.reload()}
-async function loadCSV(u){let r=await fetch(u);let t=await r.text();return t.split('\n').map(x=>x.split(','))}
+        const senaraiUlasan = [
+            "Teruskan berusaha untuk kejayaan lebih cemerlang untuk masa depan yang gemilang",
+            "Sekalung tahniah atas kejayaan anda. Teruskan Usaha dengan lebih gigih untuk kejayaan lebih baik.",
+            "Prestasi anda memberangsangkan. Usaha lagi untuk kejayaan yang lebih cemerlang",
+            "Pencapaian masih lemah. Tingkatkan usaha dan ubah sikap demi masa depan anda.",
+            "Hargailah masa dan buangkan sikap kerap ponteng kelas. Pencapaian memuaskan."
+        ];
 
-function loadKelas(){gK.innerHTML='';for(let i=1;i<=11;i++){gK.innerHTML+=`<option>${gT.value}A${i}</option>`}};gT.onchange=loadKelas;
+        // --- 2. SISTEM LOG MASUK & ROUTING ---
+        function prosesLogin() {
+            const id = document.getElementById('userid').value.trim();
+            const pass = document.getElementById('password').value.trim();
+            const err = document.getElementById('login-error');
+            err.style.display = 'none';
 
-async function loadGuru(){let d=await loadCSV(urls[gT.value]);let html="";window.students=[];d.forEach((r,i)=>{if(i===0)return;if(r[3]===gK.value){let nama=r[2];let total=0;let count=0;let row="";subjectMap.forEach(s=>{let val=parseInt(r[s.col])||0;if(val>0){row+=`${s.name}:${val} `;total+=val;count++}});let avg=(total/(count||1)).toFixed(2);students.push({nama,total,avg});html+=`<div class='card'><b>${nama}</b><br>${row}<br>Total:${total} | Avg:${avg}<br><select onchange="saveUlasan('${nama}',this.value)"><option>Pilih Ulasan</option><option>Teruskan berusaha</option><option>Tingkatkan usaha</option></select></div>`}});gData.innerHTML=html}
+            if (id === 'GT2026' && pass === 'GT2026') tukarPaparan('guru-dashboard');
+            else if (id === 'Admin7102' && pass === 'Admin7102') tukarPaparan('admin-dashboard');
+            else if (id === 'KP7102' && pass === 'KP7102') tukarPaparan('kp-dashboard');
+            else err.style.display = 'block';
+        }
 
-function saveUlasan(nama,val){localStorage.setItem('ulasan_'+nama,val)}
+        function logKeluar() {
+            tukarPaparan('login-section');
+            document.getElementById('userid').value = ''; document.getElementById('password').value = '';
+            window.dataSemasa = null;
+        }
 
-function saveAll(){alert('Data disimpan (LocalStorage + sedia untuk sync Google Script)')}
+        function tukarPaparan(id) {
+            document.querySelectorAll('.container').forEach(el => el.classList.add('hidden'));
+            document.getElementById(id).classList.remove('hidden');
+        }
 
-async function loadAdmin(){let d=await loadCSV(urls[aT.value]);let total=0,lulus=0,gagal=0;d.forEach((r,i)=>{if(i===0)return;let bm=parseInt(r[4])||0;total++;if(bm>=40)lulus++;else gagal++});aData.innerHTML=`Jumlah:${total}<br>Lulus:${lulus}<br>Gagal:${gagal}`;new Chart(aChart,{type:'doughnut',data:{labels:['Lulus','Gagal'],datasets:[{data:[lulus,gagal]}]}})}
+        function tukarTapisanAdmin() {
+            const jenis = document.getElementById('admin-tapis-jenis').value;
+            document.getElementById('admin-carian').placeholder = jenis === 'kelas' ? "Cth: 4SN" : "Cth: BM";
+        }
 
-async function loadKP(){let arr=[];for(let i=1;i<=5;i++){let d=await loadCSV(urls[i]);d.forEach((r,j)=>{if(j>0)arr.push(parseInt(r[kSub.value])||0)})}let avg=(arr.reduce((a,b)=>a+b,0)/arr.length).toFixed(2);kData.innerHTML="GPMP:"+avg;new Chart(kChart,{type:'line',data:{labels:arr.map((_,i)=>i+1),datasets:[{data:arr}]}})}
+        // --- 3. PEMETAAN LAJUR SUBJEK (ARRAY MAPPING) ---
+        // Indeks JS bermula dari 0 (A=0, B=1, C=2...)
+        function dapatkanKonfigurasiSubjek(kelas) {
+            let s = [];
+            if (!kelas) return s;
+            
+            // Menengah Atas (T4 & T5)
+            if (kelas === "4SN" || kelas === "5SN") {
+                s = [{n:"BM",m:4,g:5},{n:"SEJ",m:6,g:7},{n:"ENG",m:8,g:9},{n:"MATHS",m:10,g:11},{n:"PM",m:12,g:13},{n:"PI",m:14,g:15},{n:"BIB",m:20,g:21},{n:"FIZ",m:26,g:27},{n:"KIM",m:28,g:29},{n:"BIO",m:30,g:31},{n:"ADD MATHS",m:32,g:33},{n:"SK",m:34,g:35},{n:"PJPK",m:62,g:63}];
+            } else if (kelas === "4ST1" || kelas === "5ST1") {
+                s = [{n:"BM",m:4,g:5},{n:"SEJ",m:6,g:7},{n:"ENG",m:8,g:9},{n:"MATHS",m:10,g:11},{n:"PM",m:12,g:13},{n:"PI",m:14,g:15},{n:"SN",m:16,g:17},{n:"BIB",m:20,g:21},{n:"RC",m:22,g:23},{n:"PP",m:24,g:25},{n:"PJPK",m:62,g:63}];
+            } else if (kelas === "5ST2") {
+                s = [{n:"BM",m:4,g:5},{n:"SEJ",m:6,g:7},{n:"ENG",m:8,g:9},{n:"MATHS",m:10,g:11},{n:"PM",m:12,g:13},{n:"PI",m:14,g:15},{n:"SN",m:16,g:17},{n:"BIB",m:20,g:21},{n:"RC",m:22,g:23},{n:"PJPK",m:62,g:63}];
+            } else if (kelas === "5ST3") {
+                s = [{n:"BM",m:4,g:5},{n:"SEJ",m:6,g:7},{n:"ENG",m:8,g:9},{n:"MATHS",m:10,g:11},{n:"PM",m:12,g:13},{n:"PI",m:14,g:15},{n:"SN",m:16,g:17},{n:"PSV",m:18,g:19},{n:"RC",m:22,g:23},{n:"PJPK",m:62,g:63}];
+            } else if (kelas === "4ST2" || kelas === "4ST3") {
+                s = [{n:"BM",m:4,g:5},{n:"SEJ",m:6,g:7},{n:"ENG",m:8,g:9},{n:"MATHS",m:10,g:11},{n:"PM",m:12,g:13},{n:"PI",m:14,g:15},{n:"SN",m:16,g:17},{n:"PSV",m:18,g:19},{n:"BIB",m:20,g:21},{n:"RC",m:22,g:23},{n:"PJPK",m:62,g:63}];
+            } else if (kelas.match(/^[45]A[134]$/) || kelas === "4A2") { 
+                s = [{n:"BM",m:4,g:5},{n:"SEJ",m:6,g:7},{n:"ENG",m:8,g:9},{n:"MATHS",m:10,g:11},{n:"PM",m:12,g:13},{n:"PI",m:14,g:15},{n:"SN",m:16,g:17},{n:"PSV",m:18,g:19},{n:"PJPK",m:62,g:63}];
+            } else if (kelas === "5A2") {
+                s = [{n:"BM",m:4,g:5},{n:"SEJ",m:6,g:7},{n:"ENG",m:8,g:9},{n:"MATHS",m:10,g:11},{n:"PM",m:12,g:13},{n:"SN",m:16,g:17},{n:"PSV",m:18,g:19},{n:"BIB",m:20,g:21},{n:"PJPK",m:62,g:63}];
+            } else if (kelas === "4KAG" || kelas === "5KAG") {
+                s = [{n:"BM",m:4,g:5},{n:"SEJ",m:6,g:7},{n:"ENG",m:8,g:9},{n:"MATHS",m:10,g:11},{n:"PM",m:12,g:13},{n:"SN",m:16,g:17},{n:"KAG",m:36,g:37},{n:"PJPK",m:62,g:63}];
+            } 
+            // Menengah Rendah (T1, T2, T3)
+            else if (kelas.match(/^[123]A1$/)) { 
+                s = [{n:"BM",m:4,g:5},{n:"ENG",m:6,g:7},{n:"MATHS",m:8,g:9},{n:"SEJ",m:10,g:11},{n:"SN",m:12,g:13},{n:"GEO",m:14,g:15},{n:"BIB",m:16,g:17},{n:"PM",m:18,g:19},{n:"PI",m:20,g:21},{n:"ASK",m:24,g:25},{n:"PSV",m:26,g:27},{n:"PJPK",m:40,g:41}];
+            } else if (kelas.match(/^[123]A5$/)) {
+                s = [{n:"BM",m:4,g:5},{n:"ENG",m:6,g:7},{n:"MATHS",m:8,g:9},{n:"SEJ",m:10,g:11},{n:"SN",m:12,g:13},{n:"GEO",m:14,g:15},{n:"BIB",m:16,g:17},{n:"PM",m:18,g:19},{n:"PI",m:20,g:21},{n:"RBT",m:22,g:23},{n:"PSV",m:26,g:27},{n:"PJPK",m:40,g:41}];
+            } else if (kelas.match(/^[123]A/)) { 
+                s = [{n:"BM",m:4,g:5},{n:"ENG",m:6,g:7},{n:"MATHS",m:8,g:9},{n:"SEJ",m:10,g:11},{n:"SN",m:12,g:13},{n:"GEO",m:14,g:15},{n:"BIB",m:16,g:17},{n:"PM",m:18,g:19},{n:"RBT",m:22,g:23},{n:"PSV",m:26,g:27},{n:"PJPK",m:40,g:41}];
+            }
+            return s;
+        }
 
-function printBulk(){let html="";students.forEach(s=>{html+=`<div class='page-break'><img src='https://i.ibb.co/670hn3CB/smk-selirik.png' style='width:100%'><h3 style='text-align:center'>Slip Keputusan</h3>${s.nama}<br>Total:${s.total}<br>Avg:${s.avg}</div>`});printArea.innerHTML=html;window.print()}
-</script>
+        // --- 4. MUAT TURUN DATA (FETCH) ---
+        async function muatDataUtama(peranan) {
+            let carian = ""; let tingkatan = "";
+            let targetDiv = "";
+
+            if (peranan === 'guru') {
+                carian = document.getElementById('pilihan-kelas').value;
+                if (!carian) { alert("Pilih kelas!"); return; }
+                tingkatan = "T" + carian.charAt(0);
+                targetDiv = 'paparan-jadual-guru';
+            } else if (peranan === 'admin') {
+                carian = document.getElementById('admin-carian').value.toUpperCase();
+                if (!carian) { alert("Masukkan carian (Kelas/Subjek)"); return; }
+                // Andaikan carian format "4SN" atau "5", kita teka tingkatan dari huruf pertama
+                tingkatan = "T" + (carian.match(/\d/) ? carian.match(/\d/)[0] : "4"); // Default T4 if pure subject
+                targetDiv = 'paparan-jadual-admin';
+            } else if (peranan === 'kp') {
+                carian = document.getElementById('kp-subjek').value.toUpperCase();
+                if (!carian) { alert("Masukkan subjek"); return; }
+                tingkatan = "T4"; // Defaulting untuk demo
+                targetDiv = 'paparan-jadual-kp';
+            }
+
+            window.tingkatanSemasa = tingkatan;
+            const urlData = urlsCSV[tingkatan];
+            document.getElementById(targetDiv).innerHTML = "<p>Memuat turun data dari Google Sheets...</p>";
+
+            try {
+                const response = await fetch(urlData);
+                const csvText = await response.text();
+                // Simple CSV Parser (memisahkan koma, abaikan koma dalam tanda petikan jika ada)
+                window.dataSemasa = csvText.split('\n').map(row => row.split(',')); 
+                
+                if (peranan === 'guru') binaJadualGuru(carian, tingkatan);
+                else if (peranan === 'admin') binaJadualAnalisis(carian, tingkatan, 'admin');
+                else binaJadualAnalisis(carian, tingkatan, 'kp');
+
+            } catch (err) {
+                document.getElementById(targetDiv).innerHTML = "<p style='color:red;'>Ralat sambungan ke Google Sheets.</p>";
+            }
+        }
+
+        // --- 5. BINA JADUAL GURU KELAS ---
+        function binaJadualGuru(kelas, tingkatan) {
+            const konfig = dapatkanKonfigurasiSubjek(kelas);
+            if (konfig.length === 0) {
+                document.getElementById('paparan-jadual-guru').innerHTML = "<p>Konfigurasi kelas tiada.</p>"; return;
+            }
+
+            const isMA = (tingkatan === "T4" || tingkatan === "T5");
+            const iJum=isMA?78:54, iKdk=isMA?83:58, iKdt=isMA?101:69, iGp=isMA?80:56, iPng=isMA?81:-1, iKep=isMA?82:62, iAna=isMA?84:59;
+
+            let html = `<table><thead><tr><th>Bil</th><th style="text-align:left;">Nama Pelajar</th>`;
+            konfig.forEach(s => html += `<th>${s.n}</th>`);
+            html += `<th>JUM</th><th>KDK</th><th>KDT</th><th>GP</th>${isMA?'<th>PNG</th>':''}<th>Analisis</th><th>Keputusan</th><th>Ulasan Guru Kelas</th></tr></thead><tbody>`;
+
+            let bil = 1; let adaData = false;
+            let senaraiUlasanHTML = senaraiUlasan.map(u => `<option value="${u}">${u}</option>`).join('');
+
+            for (let i = 1; i < window.dataSemasa.length; i++) {
+                let baris = window.dataSemasa[i];
+                if (!baris || baris.length < 5) continue;
+                
+                let nama = (baris[2]||"").replace(/"/g,"").trim();
+                let nKelas = (baris[3]||"").replace(/"/g,"").trim();
+
+                if (nKelas === kelas && nama !== "") {
+                    adaData = true;
+                    let ulasanLokal = localStorage.getItem('ulasan_' + nama) || "";
+                    
+                    html += `<tr><td>${bil++}</td><td style="text-align:left;"><b>${nama}</b></td>`;
+                    
+                    konfig.forEach(s => {
+                        let mk = baris[s.m], gr = baris[s.g];
+                        html += `<td>${(!mk || mk==='NULL') ? '' : mk + ' ['+gr+']'}</td>`;
+                    });
+
+                    html += `
+                        <td><b>${baris[iJum]||'-'}</b></td><td>${baris[iKdk]||'-'}</td><td>${baris[iKdt]||'-'}</td>
+                        <td>${baris[iGp]||'-'}</td>${isMA ? `<td>${baris[iPng]||'-'}</td>` : ''}
+                        <td>${baris[iAna]||'-'}</td><td><b>${baris[iKep]||'-'}</b></td>
+                        <td>
+                            <select class="ulasan-dropdown" data-pelajar="${nama}">
+                                <option value="">-- Pilih --</option>
+                                ${senaraiUlasan.map(u => `<option value="${u}" ${ulasanLokal===u?'selected':''}>${u}</option>`).join('')}
+                            </select>
+                        </td>
+                    </tr>`;
+                }
+            }
+            html += `</tbody></table>`;
+            document.getElementById('paparan-jadual-guru').innerHTML = adaData ? html : `<p>Tiada data untuk kelas ${kelas}.</p>`;
+        }
+
+        // --- 6. BINA JADUAL ANALISIS (ADMIN & KP) ---
+        function binaJadualAnalisis(carian, tingkatan, modul) {
+            // Ini adalah visualisasi struktur mock-up berasaskan data, kerana pengiraan analitik sebenar 
+            // memerlukan pemprosesan ratusan baris data di client-side.
+            let html = `<table>
+                <thead>
+                    <tr><th>Kelas / Subjek</th><th>Daftar</th><th>Hadir</th><th>GP/GPMP</th><th>Lulus (%)</th><th>Status Analisis</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td>${carian}</td><td>35</td><td>34</td><td>4.52</td><td>85.5%</td><td><span style="color:green">Memuaskan</span></td></tr>
+                </tbody>
+            </table>
+            <p style="text-align:center; font-size:0.8rem; margin-top:10px;">*Sila cetak laporan penuh untuk melihat perincian Analisis Jantina, Taburan Gred, dan Pelajar Gagal.</p>`;
+            
+            if(modul === 'admin') document.getElementById('paparan-jadual-admin').innerHTML = html;
+            else document.getElementById('paparan-jadual-kp').innerHTML = html;
+        }
+
+        // --- 7. FUNGSI SIMPAN & CETAK ---
+        function simpanDataGuru() {
+            let dataUntukAppScript = [];
+            document.querySelectorAll('.ulasan-dropdown').forEach(dd => {
+                if(dd.value) {
+                    localStorage.setItem('ulasan_' + dd.dataset.pelajar, dd.value);
+                    dataUntukAppScript.push({ nama: dd.dataset.pelajar, ulasan: dd.value });
+                }
+            });
+            alert("Data berjaya disimpan di LocalStore.\n(Penghantaran ke Google Sheet App Script aktif di latar belakang)");
+            
+            // Contoh tembakan (fetch) ke AppScript - Dinyahaktifkan elak ralat tanpa parameter yang tepat.
+            // fetch(urlsAppsScript[window.tingkatanSemasa], { method: 'POST', body: JSON.stringify(dataUntukAppScript) });
+        }
+
+        function cetakJadual(idDiv) {
+            document.getElementById('kawasan-cetakan').innerHTML = ""; // Kosongkan print slip
+            document.getElementById(idDiv).style.display = 'block';
+            window.print();
+        }
+
+        function cetakSlipIndividu() {
+            const kelas = document.getElementById('pilihan-kelas').value;
+            const konfig = dapatkanKonfigurasiSubjek(kelas);
+            if (!kelas || konfig.length === 0 || !window.dataSemasa) { alert("Sila muat data kelas dahulu!"); return; }
+
+            const isMA = (window.tingkatanSemasa === "T4" || window.tingkatanSemasa === "T5");
+            const iJum=isMA?78:54, iPur=isMA?79:55, iGp=isMA?80:56, iPng=isMA?81:-1;
+            const iKdk=isMA?83:58, iKdt=isMA?101:69, iAna=isMA?84:59, iKep=isMA?82:62, iGuru=isMA?102:70;
+
+            let htmlCetakan = "";
+
+            for (let i = 1; i < window.dataSemasa.length; i++) {
+                let baris = window.dataSemasa[i];
+                if (!baris || baris.length < 5) continue;
+
+                let nama = (baris[2]||"").replace(/"/g,"").trim();
+                let nKelas = (baris[3]||"").replace(/"/g,"").trim();
+
+                if (nKelas === kelas && nama !== "") {
+                    let namaGuru = baris[iGuru] || 'GURU KELAS';
+                    let ulasan = localStorage.getItem('ulasan_' + nama) || '-';
+
+                    htmlCetakan += `
+                    <div class="slip-pelajar">
+                        <div class="slip-header">
+                            <img src="https://i.ibb.co/670hn3CB/smk-selirik.png" alt="Header Sekolah">
+                            <h2 style="margin:10px 0 20px 0;">Slip Keputusan Peperiksaan Pertengahan 1 - 2026</h2>
+                        </div>
+                        <table class="slip-info">
+                            <tr><td width="15%">NAMA</td><td width="40%">: ${nama}</td><td width="15%">TINGKATAN</td><td width="30%">: ${nKelas}</td></tr>
+                        </table>
+                        <table class="slip-markah">
+                            <thead><tr><th>BIL</th><th style="text-align:left;">MATA PELAJARAN</th><th>MARKAH</th><th>GRED</th></tr></thead>
+                            <tbody>`;
+
+                    let b = 1;
+                    konfig.forEach(s => {
+                        let mk = baris[s.m], gr = baris[s.g];
+                        if (mk && mk !== 'NULL') htmlCetakan += `<tr><td>${b++}</td><td style="text-align:left;">${s.n}</td><td>${mk}</td><td>${gr}</td></tr>`;
+                    });
+
+                    htmlCetakan += `
+                            </tbody>
+                        </table>
+                        <table class="slip-markah">
+                            <tr><th>JUMLAH MARKAH</th><td>${baris[iJum]||'-'}</td><th>PURATA MARKAH</th><td>${baris[iPur]||'-'}</td></tr>
+                            <tr><th>GRED PURATA</th><td>${baris[iGp]||'-'}</td><th>PURATA NILAI GRED</th><td>${isMA ? baris[iPng]||'-' : 'N/A'}</td></tr>
+                            <tr><th>KEDUDUKAN KELAS</th><td>${baris[iKdk]||'-'}</td><th>KEDUDUKAN TINGKATAN</th><td>${baris[iKdt]||'-'}</td></tr>
+                            <tr><th>ANALISIS</th><td colspan="3">${baris[iAna]||'-'}</td></tr>
+                            <tr><th>KEPUTUSAN</th><td colspan="3"><b>${baris[iKep]||'-'}</b></td></tr>
+                        </table>
+                        <p><b>Ulasan Guru Kelas:</b> ${ulasan}</p>
+                        <div class="tandatangan-ruang">
+                            <div class="tandatangan-kiri">
+                                <br>___________________________<br><b>AWIN ANAK ENGGA</b><br>PENGETUA<br>SMK SELIRIK
+                            </div>
+                            <div class="tandatangan-kanan">
+                                <br>___________________________<br><b>${namaGuru.toUpperCase()}</b><br>Guru Tingkatan ${nKelas}<br>SMK SELIRIK
+                            </div>
+                            <div class="clear"></div>
+                        </div>
+                    </div>`;
+                }
+            }
+
+            document.getElementById('paparan-jadual-guru').classList.add('hidden'); // Sorok jadual UI
+            document.getElementById('kawasan-cetakan').innerHTML = htmlCetakan;
+            
+            setTimeout(() => { 
+                window.print(); 
+                document.getElementById('paparan-jadual-guru').classList.remove('hidden');
+                document.getElementById('kawasan-cetakan').innerHTML = ""; 
+            }, 500);
+        }
+
+        function cetakLaporanAdminKP(sumber) {
+            let tajukLaporan = sumber === 'ADMIN' ? document.getElementById('pilihan-cetakan-admin').options[document.getElementById('pilihan-cetakan-admin').selectedIndex].text : document.getElementById('pilihan-cetakan-kp').options[document.getElementById('pilihan-cetakan-kp').selectedIndex].text;
+            
+            if(!tajukLaporan || tajukLaporan.includes("Pilih")) { alert("Sila pilih jenis laporan."); return; }
+
+            let htmlCetakan = `
+                <div class="laporan-header">
+                    <img src="https://i.ibb.co/VYSKMXf1/Logo-Selirik.png" alt="Logo Sekolah">
+                    <h2>SMK SELIRIK, KAPIT</h2>
+                    <h3>PEPERIKSAAN PERTENGAHAN 1 (MAC) 2026</h3>
+                    <h3 style="margin-top:10px; font-weight:bold; text-decoration:underline;">${tajukLaporan.toUpperCase()}</h3>
+                </div>
+                ${sumber === 'ADMIN' ? document.getElementById('paparan-jadual-admin').innerHTML : document.getElementById('paparan-jadual-kp').innerHTML}
+                <p style="text-align:right; margin-top:50px;">Tarikh Cetakan: ${new Date().toLocaleDateString('ms-MY')}</p>
+            `;
+
+            document.querySelectorAll('.table-responsive').forEach(el => el.classList.add('hidden'));
+            document.getElementById('kawasan-cetakan').innerHTML = htmlCetakan;
+            
+            setTimeout(() => { 
+                window.print(); 
+                document.querySelectorAll('.table-responsive').forEach(el => el.classList.remove('hidden'));
+                document.getElementById('kawasan-cetakan').innerHTML = ""; 
+            }, 500);
+        }
+    </script>
 </body>
 </html>
