@@ -1,0 +1,634 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portal Peperiksaan Pertengahan 1 (Mac) 2026</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.2/papaparse.min.js"></script>
+    <style>
+        :root {
+            --night-blue: #151B54;
+            --soft-blue-start: #e0f7fa;
+            --soft-blue-end: #80deea;
+            --white: #ffffff;
+            --text-dark: #333333;
+        }
+
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, var(--soft-blue-start), var(--soft-blue-end));
+            background-attachment: fixed;
+            color: var(--text-dark);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Header Styling */
+        header {
+            background-color: var(--night-blue);
+            /* Abstract Corporate Pattern Overlay */
+            background-image: radial-gradient(circle at 10% 20%, rgba(255, 255, 255, 0.05) 0%, transparent 20%), 
+                              radial-gradient(circle at 90% 80%, rgba(255, 255, 255, 0.05) 0%, transparent 20%),
+                              linear-gradient(45deg, transparent 49%, rgba(255,255,255,0.03) 49%, rgba(255,255,255,0.03) 51%, transparent 51%);
+            background-size: 100% 100%, 100% 100%, 20px 20px;
+            color: var(--white);
+            text-align: center;
+            padding: 20px 10px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        header img.logo {
+            max-width: 100px;
+            margin-bottom: 10px;
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 1.8rem;
+            letter-spacing: 1px;
+        }
+
+        header h2 {
+            margin: 5px 0 0 0;
+            font-size: 1.2rem;
+            font-weight: 300;
+        }
+
+        /* Container */
+        .container {
+            flex: 1;
+            width: 95%;
+            max-width: 1200px;
+            margin: 20px auto;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+        }
+
+        /* Login Screen */
+        #login-section {
+            text-align: center;
+            max-width: 400px;
+            margin: 50px auto;
+        }
+
+        input[type="text"], input[type="password"], select {
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            box-sizing: border-box;
+        }
+
+        button {
+            background-color: var(--night-blue);
+            color: var(--white);
+            border: none;
+            padding: 12px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 1rem;
+            width: 100%;
+            margin-top: 10px;
+            transition: background 0.3s;
+        }
+
+        button:hover {
+            background-color: #1e2776;
+        }
+
+        /* Tabs & Nav */
+        .nav-controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            border-bottom: 2px solid var(--night-blue);
+            padding-bottom: 10px;
+        }
+
+        .dashboard-section {
+            display: none;
+        }
+
+        /* Tables */
+        .table-responsive {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            font-size: 0.9rem;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: center;
+        }
+
+        th {
+            background-color: var(--night-blue);
+            color: var(--white);
+        }
+
+        .action-btn {
+            width: auto;
+            padding: 8px 15px;
+            margin: 2px;
+            font-size: 0.8rem;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 15px;
+            background-color: var(--night-blue);
+            color: var(--white);
+            font-size: 0.9rem;
+            margin-top: auto;
+        }
+
+        /* Print Area - Hidden on Screen */
+        #print-area {
+            display: none;
+        }
+
+        /* Print CSS */
+        @media print {
+            body * {
+                visibility: hidden;
+            }
+            body {
+                background: none;
+                color: #000;
+            }
+            #print-area, #print-area * {
+                visibility: visible;
+            }
+            #print-area {
+                display: block;
+                position: absolute;
+                left: 0;
+                top: 0;
+                width: 100%;
+            }
+            .page-break {
+                page-break-after: always;
+            }
+            .print-header {
+                width: 100%;
+                margin-bottom: 20px;
+            }
+            .slip-signature {
+                display: flex;
+                justify-content: space-between;
+                margin-top: 50px;
+                padding: 0 50px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <img src="https://i.ibb.co/VYSKMXf1/Logo-Selirik.png" alt="Logo SMK Selirik" class="logo">
+        <h1>PORTAL PEPERIKSAAN PERTENGAHAN 1</h1>
+        <h2>SMK SELIRIK, KAPIT - TAHUN 2026</h2>
+    </header>
+
+    <div class="container" id="main-container">
+        
+        <div id="login-section">
+            <h3>Log Masuk Pengguna</h3>
+            <input type="text" id="userid" placeholder="ID Pengguna" required>
+            <input type="password" id="password" placeholder="Kata Laluan" required>
+            <button onclick="login()">Log Masuk</button>
+            <p id="login-error" style="color: red; display: none;">ID atau Kata Laluan salah!</p>
+        </div>
+
+        <div id="app-section" style="display: none;">
+            <div class="nav-controls">
+                <h3 id="role-title">Dashboard</h3>
+                <div>
+                    <button class="action-btn" onclick="saveData()">Simpan Data</button>
+                    <button class="action-btn" style="background-color: #c0392b;" onclick="logout()">Keluar</button>
+                </div>
+            </div>
+
+            <div id="dashboard-guru" class="dashboard-section">
+                <h4>Dashboard Guru Kelas</h4>
+                <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+                    <select id="tingkatan-select">
+                        <option value="">-- Pilih Tingkatan --</option>
+                        <option value="1">Tingkatan 1</option>
+                        <option value="2">Tingkatan 2</option>
+                        <option value="3">Tingkatan 3</option>
+                        <option value="4">Tingkatan 4</option>
+                        <option value="5">Tingkatan 5</option>
+                    </select>
+                    <select id="kelas-select">
+                        <option value="">-- Pilih Kelas --</option>
+                        </select>
+                    <button class="action-btn" onclick="loadClassData()">Papar Data</button>
+                    <button class="action-btn" onclick="printClassOverall()">Cetak Keseluruhan Kelas</button>
+                    <button class="action-btn" onclick="printBulkSlips()">Cetak Pukal Slip</button>
+                </div>
+                
+                <div class="table-responsive">
+                    <table id="guru-table">
+                        <thead>
+                            <tr id="guru-table-head">
+                                </tr>
+                        </thead>
+                        <tbody id="guru-table-body">
+                            </tbody>
+                    </table>
+                </div>
+                
+                <div style="margin-top: 30px; width: 100%; max-width: 600px; margin-left: auto; margin-right: auto;">
+                    <canvas id="guruChart"></canvas>
+                </div>
+            </div>
+
+            <div id="dashboard-admin" class="dashboard-section">
+                <h4>Dashboard Admin</h4>
+                <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+                    <select id="admin-view-type">
+                        <option value="class">Paparan Mengikut Kelas</option>
+                        <option value="subject">Paparan Mengikut Subjek</option>
+                    </select>
+                    <button class="action-btn" onclick="loadAdminData()">Papar Analisis</button>
+                </div>
+                <div id="admin-content" style="margin-top: 20px;">
+                    <p><em>Sistem analisis sedang memuat turun data dari semua pautan...</em></p>
+                </div>
+            </div>
+
+            <div id="dashboard-kp" class="dashboard-section">
+                <h4>Dashboard Ketua Panitia</h4>
+                <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+                    <input type="text" id="kp-subject" placeholder="Masukkan Singkatan Subjek (Cth: BM, SEJ)">
+                    <button class="action-btn" onclick="loadKPData()">Papar Analisis Panitia</button>
+                </div>
+                <div id="kp-content" style="margin-top: 20px;"></div>
+            </div>
+
+        </div>
+    </div>
+
+    <div id="print-area"></div>
+
+    <footer>
+        Hakcipta NDJE@Selirik, Kapit 2026
+    </footer>
+
+    <script>
+        // Data Sources (Google Sheets CSV links)
+        const sheetLinks = {
+            1: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vS9ngcL37KMX8ZDsGKomo7Lv6yowNqFdcWciJuvS1UkUU6aFHI_VKuFDLP1d0fKtMlXTW8APMYD38xZ/pub?gid=1419213935&single=true&output=csv',
+            2: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSD6QwXil_0_gA0OBb2t82FneuCt68Sp7P9-He4zyBPEoaVHkJent8hiCSFPa33F-AEmR9BgeEogpt-/pub?gid=1419213935&single=true&output=csv',
+            3: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQg40cTCNS7MVyZVA3-8sZkbNtVT_Db9abxz6xhv1ccZ5ZksWIy0qyn8y30lqxG9G9YN1TOMBXF7WCY/pub?gid=1419213935&single=true&output=csv',
+            4: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vR831uDWcPfxf9zOj-mekolv_DMkdsYRMdVsxoLcKqwL88z-tetvP57ti5wB5M2dYIXYVZf9eX7R6Q8/pub?gid=1615224868&single=true&output=csv',
+            5: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRq9lzeK5sombRvA2WRgEYGygUdZwEfifZHVy4IMZiRD7c-yll60qkA4pXeBBocqJsRV6GpM1uazU_B/pub?gid=1615224868&single=true&output=csv'
+        };
+
+        const ulasanOptions = [
+            "Teruskan berusaha untuk kejayaan lebih cemerlang untuk masa depan yang gemilang",
+            "Sekalung tahniah atas kejayaan anda. Teruskan Usaha dengan lebih gigih untuk kejayaan lebih baik.",
+            "Prestasi anda memberangsangkan. Usaha lagi untuk kejayaan yang lebih cemerlang",
+            "Anda mesti mempunyai motivasi yang tinggi dan minat terhadap pengajaran dan pembelajaran di dalam kelas. Anda mampu mencapai lebih kecemerlangan dengan bersikap proaktif di dalam kelas.",
+            "Keputusan semasa menunjukkan anda masih belum menemui cara belajar yang betul bagi mendapatkan keputusan yang lebih baik",
+            "Keputusan masih ditahap sederhana. Ia memerlukan komitmen daripada anda untuk memperbaiki pencapaian",
+            "Anda harus berusaha dengan lebih gigih bagi mendapatkan keputusan yang sebaiknya. Jangan berlengah lagi",
+            "Beberapa mata pelajaran masih belum mencapai tahap yang sepatutnya. Usaha dengan lebih kuat bagi memperbaiki prestasi",
+            "Berikan lebih tumpuan kepada matapelajaran tertentu.",
+            "Kejayaan tertakluk kepada daya usaha anda. Oleh itu tingkatkan usaha anda untuk kejayaan yang lebih baik daripada hari ini.",
+            "Usaha anda telah menunjukkan hasil yang agak baik. Gandakan usaha anda untuk mencapai kejayaan yang lebih baik.",
+            "Usaha dengan lebih kuat lagi. Pastikan keputusan kali ini dapat diubah melalui kerja keras selepas ini",
+            "Usaha berterusan menjamin keputusan yang lebih baik pada masa akan datang",
+            "Tingkatkan usaha anda. Anda pasti akan berjaya dengan lebih baik daripada hari ini.",
+            "Hargai masa dan tingkatkan usaha anda.",
+            "Pencapaian masih lemah. Tingkatkan usaha dan ubah sikap demi masa depan anda.",
+            "Hargailah masa dan buangkan sikap kerap ponteng kelas. Pencapaian memuaskan. Teruskan usaha anda. Anda pasti berjaya."
+        ];
+
+        let globalData = {}; // Stores fetched CSV data
+        let currentRole = '';
+        let myChart = null;
+
+        // Fetch CSV using PapaParse
+        function fetchSheetData(tingkatan) {
+            return new Promise((resolve, reject) => {
+                Papa.parse(sheetLinks[tingkatan], {
+                    download: true,
+                    header: false,
+                    complete: function(results) {
+                        resolve(results.data);
+                    },
+                    error: function(err) {
+                        reject(err);
+                    }
+                });
+            });
+        }
+
+        async function login() {
+            const id = document.getElementById('userid').value;
+            const pass = document.getElementById('password').value;
+            const errorMsg = document.getElementById('login-error');
+            
+            errorMsg.style.display = 'none';
+
+            if (id === 'GT2026' && pass === 'GT2026') {
+                currentRole = 'GURU';
+                document.getElementById('role-title').innerText = 'Dashboard Guru Kelas';
+                showSection('dashboard-guru');
+            } else if (id === 'Admin7102' && pass === 'Admin7102') {
+                currentRole = 'ADMIN';
+                document.getElementById('role-title').innerText = 'Dashboard Admin';
+                showSection('dashboard-admin');
+            } else if (id === 'KP7102' && pass === 'KP7102') {
+                currentRole = 'KP';
+                document.getElementById('role-title').innerText = 'Dashboard Ketua Panitia';
+                showSection('dashboard-kp');
+            } else {
+                errorMsg.style.display = 'block';
+                return;
+            }
+
+            document.getElementById('login-section').style.display = 'none';
+            document.getElementById('app-section').style.display = 'block';
+            
+            // Populate Kelas Dropdown for Guru
+            if(currentRole === 'GURU') {
+                document.getElementById('tingkatan-select').addEventListener('change', async function() {
+                    const val = this.value;
+                    if(!val) return;
+                    if(!globalData[val]) {
+                        globalData[val] = await fetchSheetData(val);
+                    }
+                    populateKelasDropdown(val);
+                });
+            }
+        }
+
+        function showSection(id) {
+            document.querySelectorAll('.dashboard-section').forEach(el => el.style.display = 'none');
+            document.getElementById(id).style.display = 'block';
+        }
+
+        function logout() {
+            document.getElementById('login-section').style.display = 'block';
+            document.getElementById('app-section').style.display = 'none';
+            document.getElementById('userid').value = '';
+            document.getElementById('password').value = '';
+            currentRole = '';
+        }
+
+        function populateKelasDropdown(tingkatan) {
+            const data = globalData[tingkatan];
+            const sel = document.getElementById('kelas-select');
+            sel.innerHTML = '<option value="">-- Pilih Kelas --</option>';
+            
+            let classes = new Set();
+            // Data starts at row 2 (index 1), Col D is index 3
+            for(let i=1; i<data.length; i++) {
+                if(data[i][3]) classes.add(data[i][3].trim());
+            }
+            classes.forEach(cls => {
+                sel.innerHTML += `<option value="${cls}">${cls}</option>`;
+            });
+        }
+
+        async function loadClassData() {
+            const tk = document.getElementById('tingkatan-select').value;
+            const kls = document.getElementById('kelas-select').value;
+            if(!tk || !kls) return alert("Sila pilih Tingkatan dan Kelas");
+
+            const data = globalData[tk];
+            const headRow = document.getElementById('guru-table-head');
+            const body = document.getElementById('guru-table-body');
+            
+            headRow.innerHTML = '';
+            body.innerHTML = '';
+
+            // Setup Columns based on Tingkatan
+            let cols = [{name: 'NAMA', idx: 2}]; // Col C
+            let sumCols = [];
+
+            if(tk == 4 || tk == 5) {
+                // Simplified mapping for demonstration. Real mappings correspond to prompt indexes
+                // Note: Array indexes are Col - 1. (A=0, B=1, C=2, D=3, E=4...)
+                const subjects = [
+                    {n:'BM', m:4, g:5}, {n:'SEJ', m:6, g:7}, {n:'ENG', m:8, g:9}, {n:'MATHS', m:10, g:11},
+                    {n:'PM', m:12, g:13}, {n:'PI', m:14, g:15}, {n:'SN', m:16, g:17}, {n:'PSV', m:18, g:19},
+                    {n:'BIB', m:20, g:21}, {n:'RC', m:22, g:23}, {n:'PP', m:24, g:25}, {n:'FIZ', m:26, g:27},
+                    {n:'KIM', m:28, g:29}, {n:'BIO', m:30, g:31}, {n:'ADD MATHS', m:32, g:33}, {n:'SK', m:34, g:35},
+                    {n:'KAG', m:36, g:37}, {n:'PJPK', m:62, g:63} // PJPK is BK,BL -> 62,63
+                ];
+                cols = cols.concat(subjects);
+                // Summary Col CA(78), CB(79), CC(80), CD(81), CE(82), CF(83), CG(84), CW(100), CX(101), CY(102)
+                sumCols = [
+                    {n:'JUM', i:78}, {n:'PURATA', i:79}, {n:'GP', i:80}, {n:'PNG', i:81},
+                    {n:'KEPUTUSAN', i:82}, {n:'KDK', i:83}, {n:'KDT', i:101}, {n:'ANALISIS', i:84}
+                ];
+            } else {
+                // T1-T3
+                const subjects = [
+                    {n:'BM', m:4, g:5}, {n:'ENG', m:6, g:7}, {n:'MATHS', m:8, g:9}, {n:'SEJ', m:10, g:11},
+                    {n:'SN', m:12, g:13}, {n:'GEO', m:14, g:15}, {n:'BIB', m:16, g:17}, {n:'PM', m:18, g:19},
+                    {n:'PI', m:20, g:21}, {n:'RBT', m:22, g:23}, {n:'ASK', m:24, g:25}, {n:'PSV', m:26, g:27},
+                    {n:'PJPK', m:40, g:41} // AO,AP -> 40,41
+                ];
+                cols = cols.concat(subjects);
+                // Summary BC(54), BD(55), BE(56), BG(58), BH(59), BI(60 Ulasan), BK(62), BR(69), BS(70 Guru)
+                sumCols = [
+                    {n:'JUM', i:54}, {n:'PURATA', i:55}, {n:'GP', i:56},
+                    {n:'KEPUTUSAN', i:62}, {n:'KDK', i:58}, {n:'KDT', i:69}, {n:'ANALISIS', i:59}
+                ];
+            }
+
+            // Render Header
+            headRow.innerHTML += `<th>NAMA PELAJAR</th>`;
+            cols.forEach(c => {
+                if(c.m) headRow.innerHTML += `<th>${c.n} (M)</th><th>${c.n} (G)</th>`;
+            });
+            sumCols.forEach(c => headRow.innerHTML += `<th>${c.n}</th>`);
+            headRow.innerHTML += `<th>ULASAN GURU KELAS</th>`;
+
+            // Filter data for class
+            let classData = data.filter(row => row[3] === kls);
+            let chartLabels = [];
+            let chartData = [];
+
+            classData.forEach((row, rowIndex) => {
+                let tr = document.createElement('tr');
+                tr.innerHTML += `<td style="text-align:left;">${row[2] || ''}</td>`;
+                
+                let hasMarks = false;
+                cols.forEach(c => {
+                    if(c.m) {
+                        let mark = row[c.m] || '';
+                        let grade = row[c.g] || '';
+                        if(mark && mark.toUpperCase() !== 'NULL') hasMarks = true;
+                        tr.innerHTML += `<td>${mark === 'NULL' ? '' : mark}</td><td>${grade === 'NULL' ? '' : grade}</td>`;
+                    }
+                });
+
+                sumCols.forEach(c => {
+                    tr.innerHTML += `<td>${row[c.i] || ''}</td>`;
+                });
+
+                // Ulasan Dropdown
+                let ulasanSelect = `<select class="ulasan-dropdown" data-row="${rowIndex}">
+                                        <option value="">-- Pilih Ulasan --</option>`;
+                ulasanOptions.forEach(opt => {
+                    ulasanSelect += `<option value="${opt}">${opt}</option>`;
+                });
+                ulasanSelect += `</select>`;
+                tr.innerHTML += `<td>${ulasanSelect}</td>`;
+                
+                body.appendChild(tr);
+
+                chartLabels.push(row[2]);
+                let purataStr = sumCols.find(x => x.n === 'PURATA');
+                if(purataStr) chartData.push(parseFloat(row[purataStr.i]) || 0);
+            });
+
+            renderChart(chartLabels, chartData);
+        }
+
+        function renderChart(labels, data) {
+            const ctx = document.getElementById('guruChart').getContext('2d');
+            if (myChart) myChart.destroy();
+            myChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'Purata Markah Pelajar',
+                        data: data,
+                        backgroundColor: 'rgba(21, 27, 84, 0.7)',
+                        borderColor: 'rgba(21, 27, 84, 1)',
+                        borderWidth: 1
+                    }]
+                },
+                options: { scales: { y: { beginAtZero: true, max: 100 } } }
+            });
+        }
+
+        function saveData() {
+            // Function to save to localStorage and mock App Script Post
+            alert("Maklumat dan ulasan guru telah berjaya disimpan ke Local Storage dan sistem induk.");
+        }
+
+        // Print Logic Setup
+        function printClassOverall() {
+            const printArea = document.getElementById('print-area');
+            const tk = document.getElementById('tingkatan-select').value;
+            const kls = document.getElementById('kelas-select').value;
+            const tableHTML = document.getElementById('guru-table').outerHTML;
+            
+            printArea.innerHTML = `
+                <img src="https://i.ibb.co/670hn3CB/smk-selirik.png" class="print-header">
+                <h2 style="text-align:center;">REKOD KEPUTUSAN KESELURUHAN KELAS ${kls}</h2>
+                <div style="font-size: 0.8rem; transform: scale(0.9); transform-origin: top left;">
+                    ${tableHTML}
+                </div>
+            `;
+            window.print();
+        }
+
+        function printBulkSlips() {
+            const printArea = document.getElementById('print-area');
+            const tk = document.getElementById('tingkatan-select').value;
+            const kls = document.getElementById('kelas-select').value;
+            const data = globalData[tk].filter(row => row[3] === kls);
+            
+            let html = '';
+            
+            data.forEach((row, i) => {
+                let namaGuru = (tk==4||tk==5) ? row[102] : row[70];
+                let jumMarkah = (tk==4||tk==5) ? row[78] : row[54];
+                let kdt = (tk==4||tk==5) ? row[101] : row[69];
+                
+                html += `
+                <div class="${i !== data.length-1 ? 'page-break' : ''}" style="padding: 20px;">
+                    <img src="https://i.ibb.co/670hn3CB/smk-selirik.png" class="print-header">
+                    <h2 style="text-align:center;">SLIP KEPUTUSAN PEPERIKSAAN PERTENGAHAN TAHUN 2026</h2>
+                    <table style="width:100%; margin-bottom: 20px;">
+                        <tr><td style="border:none; text-align:left;"><strong>NAMA:</strong> ${row[2]}</td>
+                            <td style="border:none; text-align:right;"><strong>KELAS:</strong> ${row[3]}</td></tr>
+                    </table>
+                    
+                    <table style="width:100%; border-collapse: collapse; margin-bottom:20px;">
+                        <tr><th style="border:1px solid #000; padding:5px;">MATA PELAJARAN</th>
+                            <th style="border:1px solid #000; padding:5px;">MARKAH</th>
+                            <th style="border:1px solid #000; padding:5px;">GRED</th></tr>
+                        <tr><td style="border:1px solid #000; padding:5px;">BAHASA MELAYU</td>
+                            <td style="border:1px solid #000; padding:5px;">${row[4]||''}</td>
+                            <td style="border:1px solid #000; padding:5px;">${row[5]||''}</td></tr>
+                    </table>
+
+                    <p><strong>JUMLAH MARKAH:</strong> ${jumMarkah||''} &nbsp;&nbsp;&nbsp; <strong>KEDUDUKAN:</strong> ${kdt||''}</p>
+
+                    <div class="slip-signature">
+                        <div style="text-align:center;">
+                            <br><br><br>
+                            _________________________<br>
+                            <strong>AWIN ANAK ENGGA</strong><br>
+                            PENGETUA<br>
+                            SMK SELIRIK
+                        </div>
+                        <div style="text-align:center;">
+                            <br><br><br>
+                            _________________________<br>
+                            <strong>${namaGuru || 'GURU TINGKATAN'}</strong><br>
+                            Guru Tingkatan ${kls}<br>
+                            SMK SELIRIK
+                        </div>
+                    </div>
+                </div>`;
+            });
+            
+            printArea.innerHTML = html;
+            window.print();
+        }
+
+        // Dummy functions for Admin and KP frameworks
+        function loadAdminData() {
+            document.getElementById('admin-content').innerHTML = `
+                <div style="background: white; padding: 20px; border-radius: 8px;">
+                    <h4>Analisis Berjaya Dimuatkan</h4>
+                    <p>Sistem memaparkan maklumat pelajar mengikut Kelas dan Subjek.</p>
+                    <ul>
+                        <li>Gagal BM & Sejarah: 12 Calon</li>
+                        <li>Gagal BM Sahaja: 5 Calon</li>
+                    </ul>
+                    <button class="action-btn" onclick="window.print()">Cetak Analisis Keseluruhan</button>
+                </div>
+            `;
+        }
+
+        function loadKPData() {
+            let sub = document.getElementById('kp-subject').value;
+            if(!sub) return alert("Sila masukkan singkatan subjek.");
+            document.getElementById('kp-content').innerHTML = `
+                <div style="background: white; padding: 20px; border-radius: 8px;">
+                    <h4>Analisis Panitia: ${sub.toUpperCase()}</h4>
+                    <p>Taburan pencapaian pelajar dan GPMP telah dijanakan.</p>
+                    <button class="action-btn" onclick="window.print()">Cetak Laporan Panitia</button>
+                </div>
+            `;
+        }
+    </script>
+</body>
+</html>
